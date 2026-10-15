@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>APTIQ — Adaptive Aptitude Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">APTIQ<span>ADAPTIVE APTITUDE GAME</span></div>
+  <div class="top-stats">
+    <div class="pill">🔥 <span id="topStreak">0</span> day</div>
+    <div class="pill">⭐ <span id="topXP">0</span> XP</div>
+    <div class="pill">❤️ <span id="topHearts">5</span></div>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="navbtn active" data-page="home">🏠 Home</button>
+    <button class="navbtn" data-page="learn">🗺️ Learn</button>
+    <button class="navbtn" data-page="practice">⚔️ Practice</button>
+    <button class="navbtn" data-page="challenges">🏆 Challenges</button>
+    <button class="navbtn" data-page="analytics">📊 Analytics</button>
+    <button class="navbtn" data-page="profile">👤 Profile</button>
+  </aside>
+  <main class="main">
+    <section id="home" class="page active">
+      <div class="hero"><div><h1>Welcome back, <span id="helloName">Yogesh</span> 👋</h1><p>Your adaptive aptitude journey starts here.</p></div><div class="hero-art">🎯</div></div>
+      <div class="grid grid-4" style="margin-top:18px">
+        <div class="card"><div class="muted">CURRENT LEVEL</div><div class="stat-number" id="levelText">1</div><div class="muted" id="levelProgressText">500 XP to Level 2</div></div>
+        <div class="card"><div class="muted">TOTAL XP</div><div class="stat-number" id="xpText">0</div><div class="muted">Build your combo</div></div>
+        <div class="card"><div class="muted">STREAK</div><div class="stat-number">🔥 <span id="streakText">0</span></div><div class="muted">days active</div></div>
+        <div class="card"><div class="muted">QUESTIONS</div><div class="stat-number" id="solvedText">0</div><div class="muted">solved</div></div>
+      </div>
+      <div class="section-title"><h2>Continue Learning</h2><span class="badge">ADAPTIVE</span></div>
+      <div class="card" id="continueCard"></div>
+      <div class="section-title"><h2>Today's Goal</h2><span class="muted" id="goalText">0 / 50 XP</span></div>
+      <div class="card"><div class="progress"><div id="goalBar" style="width:0%"></div></div></div>
+      <div class="section-title"><h2>Quick Actions</h2></div>
+      <div class="grid grid-3">
+        <div class="card"><div class="stat-icon">🔥</div><h3>Daily Challenge</h3><p class="muted">5 adaptive questions</p><button class="btn primary" onclick="startDaily()">Start</button></div>
+        <div class="card"><div class="stat-icon">🧠</div><h3>Mistake Bank</h3><p class="muted"><span id="mistakeCount">0</span> questions to review</p><button class="btn secondary" onclick="startMistakes()">Review</button></div>
+        <div class="card"><div class="stat-icon">⚔️</div><h3>Boss Challenge</h3><p class="muted">Master a topic</p><button class="btn secondary" onclick="startBoss()">Fight</button></div>
+      </div>
+      <div class="section-title"><h2>Category Mastery</h2></div>
+      <div class="card" id="categoryMastery"></div>
+    </section>
+<div id="difficulty">
+    Difficulty: Easy
+</div>
+    <section id="learn" class="page">
+      <div class="section-title" style="margin-top:0"><h2>🗺️ Learning Map</h2><span class="badge">31 Topics</span></div>
+      <div class="filters" id="categoryFilters"></div>
+      <div class="topic-list" id="topicGrid"></div>
+    </section>
+
+    <section id="practice" class="page">
+      <div class="section-title" style="margin-top:0"><h2>⚔️ Practice Arena</h2></div>
+      <div id="practiceMenu">
+        <div class="grid grid-3">
+          <div class="card mode-card"><div class="stat-icon">⚡</div><h3>Quick Practice</h3><p class="muted">5 adaptive questions</p><button class="btn primary" onclick="startQuick()">Start</button></div>
+          <div class="card mode-card"><div class="stat-icon">🎯</div><h3>Focus Practice</h3><p class="muted">Choose any topic</p><button class="btn secondary" onclick="showPage('learn')">Choose Topic</button></div>
+          <div class="card mode-card"><div class="stat-icon">🧠</div><h3>Mistake Mode</h3><p class="muted">Review missed questions</p><button class="btn secondary" onclick="startMistakes()">Start</button></div>
+          <div class="card mode-card"><div class="stat-icon">⏱️</div><h3>Speed Mode</h3><p class="muted">Beat expected time</p><button class="btn secondary" onclick="startSpeed()">Start</button></div>
+          <div class="card mode-card"><div class="stat-icon">📝</div><h3>Mock Test</h3><p class="muted">10 placement-style questions</p><button class="btn secondary" onclick="startMock()">Start</button></div>
+        </div>
+      </div>
+      <div id="questionArea" style="display:none"></div>
+    </section>
+
+    <section id="challenges" class="page">
+      <div class="section-title" style="margin-top:0"><h2>🏆 Challenges</h2></div>
+      <div class="grid grid-2">
+        <div class="card"><span class="badge">DAILY</span><h2>🔥 Daily Challenge</h2><p class="muted">5 mixed questions with bonus XP.</p><button class="btn primary" onclick="startDaily()">Start Challenge</button></div>
+        <div class="card"><span class="badge orange">BOSS</span><h2>⚔️ Boss Challenge</h2><p class="muted">10 questions. Target 80%.</p><button class="btn primary" onclick="startBoss()">Enter Battle</button></div>
+      </div>
+      <div class="section-title"><h2>Achievements</h2></div><div class="grid grid-3" id="achievementGrid"></div>
+    </section>
+
+    <section id="analytics" class="page">
+      <div class="section-title" style="margin-top:0"><h2>📊 Your Analytics</h2></div>
+      <div class="grid grid-4">
+        <div class="card"><div class="muted">ACCURACY</div><div class="stat-number" id="accuracyStat">0%</div></div>
+        <div class="card"><div class="muted">QUESTIONS</div><div class="stat-number" id="analyticsSolved">0</div></div>
+        <div class="card"><div class="muted">AVG TIME</div><div class="stat-number" id="avgTime">—</div></div>
+        <div class="card"><div class="muted">STREAK</div><div class="stat-number">🔥 <span id="analyticsStreak">0</span></div></div>
+      </div>
+      <div class="grid grid-2" style="margin-top:18px"><div class="card"><h3>Recent Accuracy</h3><div class="bar-chart" id="accuracyChart"></div></div><div class="card"><h3>Topic Performance</h3><div id="analyticsTopics"></div></div></div>
+      <div class="card" style="margin-top:18px"><h3>🎯 Recommended Focus</h3><p id="focusText">Answer a few questions and APTIQ will identify your weakest topic.</p></div>
+    </section>
+
+    <section id="profile" class="page">
+      <div class="section-title" style="margin-top:0"><h2>👤 Profile</h2></div>
+      <div class="grid grid-2">
+        <div class="card"><div style="font-size:55px">🧑‍💻</div><h2 id="profileName">Yogesh</h2><p class="muted">Level <span id="profileLevel">1</span> · <span id="profileXP">0</span> XP</p><label class="muted">Display name</label><input id="nameInput" placeholder="Your name" style="margin:7px 0 12px"><button class="btn primary" onclick="saveName()">Save Name</button></div>
+        <div class="card"><h3>Progress</h3><p>Questions solved: <b id="pSolved">0</b></p><p>Accuracy: <b id="pAccuracy">0%</b></p><p>Current streak: <b id="pStreak">0 days</b></p><p>Hearts: <b id="pHearts">5/5</b></p><p>Achievements: <b id="pAchievements">0</b></p></div>
+      </div>
+      <div class="card" style="margin-top:18px"><h3>⚙️ Settings</h3><button class="btn danger" onclick="resetProgress()">Reset Progress</button><p class="muted">Clears only this browser's APTIQ local data.</p></div>
+    </section>
+  </main>
+</div>
+<nav class="mobile-nav">
+  <button data-page="home" class="active">🏠<br>Home</button><button data-page="learn">🗺️<br>Learn</button><button data-page="practice">⚔️<br>Practice</button><button data-page="challenges">🏆<br>Challenges</button><button data-page="analytics">📊<br>Stats</button><button data-page="profile">👤<br>Profile</button>
+</nav>
+<div id="levelModal" class="modal"><div class="modal-card"><div class="level-icon">🎉</div><h2>LEVEL UP!</h2><p>You reached <b id="newLevel">2</b></p><p class="muted">Keep going!</p><button class="btn primary" onclick="closeModal()">Continue</button></div></div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
